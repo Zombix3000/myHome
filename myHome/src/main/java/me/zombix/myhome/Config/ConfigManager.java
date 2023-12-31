@@ -64,6 +64,7 @@ public class ConfigManager {
         messagesConfig.set("is-delay", "&7Teleporting in {delay} seconds...");
         messagesConfig.set("is-moving", "&cTeleportation canceled because you was moved when you waiting for teleportation!");
         messagesConfig.set("no-permission", "&cYou don't have permission to use this command!");
+        messagesConfig.set("successfully-reloaded", "&aPlugin myHome has been reloaded!");
         try {
             messagesConfig.save(messagesFile);
         } catch (IOException e) {
