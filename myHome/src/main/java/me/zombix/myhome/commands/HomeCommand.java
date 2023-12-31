@@ -55,7 +55,10 @@ public class HomeCommand implements CommandExecutor, Listener {
                         if (mainConfig.getBoolean("allow-movement")) {
                             int taskId = Bukkit.getScheduler().runTaskLater(configManager.getPlugin(), () -> {
                                 if (player.isOnline() && !player.isDead()) {
-                                    teleportHome(player, homesConfig);
+                                    float yaw = player.getLocation().getYaw();
+                                    float pitch = player.getLocation().getPitch();
+
+                                    teleportHome(player, homesConfig, (int) yaw, (int) pitch);
                                 }
                             }, delaySeconds * 20L).getTaskId();
 
@@ -82,7 +85,10 @@ public class HomeCommand implements CommandExecutor, Listener {
 
                                 int taskId = Bukkit.getScheduler().runTaskLater(plugin, () -> {
                                     if (player.isOnline() && !player.isDead()) {
-                                        teleportHome(player, homesConfig);
+                                        float yaw = player.getLocation().getYaw();
+                                        float pitch = player.getLocation().getPitch();
+
+                                        teleportHome(player, homesConfig, (int) yaw, (int) pitch);
                                         if (movementTask != null) {
                                             movementTask.cancel();
                                         }
@@ -95,7 +101,10 @@ public class HomeCommand implements CommandExecutor, Listener {
                             }
                         }
                     } else {
-                        teleportHome(player, homesConfig);
+                        float yaw = player.getLocation().getYaw();
+                        float pitch = player.getLocation().getPitch();
+
+                        teleportHome(player, homesConfig, (int) yaw, (int) pitch);
                     }
                 } else {
                     player.sendMessage(noHomeMessage.replace("{player}", player.getName()));
@@ -112,13 +121,25 @@ public class HomeCommand implements CommandExecutor, Listener {
 
     }
 
-    private void teleportHome(Player player, FileConfiguration homesConfig) {
+    private void teleportHome(Player player, FileConfiguration homesConfig, Integer yawDefault, Integer pitchDefault) {
+        FileConfiguration mainConfig = configManager.getMainConfig();
+
         double x = homesConfig.getDouble(player.getUniqueId().toString() + ".x");
         double y = homesConfig.getDouble(player.getUniqueId().toString() + ".y");
         double z = homesConfig.getDouble(player.getUniqueId().toString() + ".z");
         String worldName = homesConfig.getString(player.getUniqueId().toString() + ".world");
 
-        player.teleport(new Location(player.getServer().getWorld(worldName), x, y, z));
+        if (mainConfig.getBoolean("save-look")) {
+            float yaw = (float) configManager.getHomesConfig().getDouble(player.getUniqueId() + ".yaw");
+            float pitch = (float) configManager.getHomesConfig().getDouble(player.getUniqueId() + ".pitch");
+
+            player.teleport(new Location(player.getServer().getWorld(worldName), x, y, z, yaw, pitch));
+        } else {
+            float yaw = (float) yawDefault;
+            float pitch = (float) pitchDefault;
+
+            player.teleport(new Location(player.getServer().getWorld(worldName), x, y, z, yaw, pitch));
+        }
 
         player.sendMessage(homeTPMessage.replace("{player}", player.getName()));
     }

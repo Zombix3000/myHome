@@ -6,6 +6,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class ConfigManager {
 
@@ -47,9 +49,13 @@ public class ConfigManager {
     }
 
     private void createMainConfig() {
+        List<String> allowedWorlds = Arrays.asList("world", "world_nether", "world_end");
+
         mainConfig.set("delay-require", true);
         mainConfig.set("delay", 5);
         mainConfig.set("allow-movement", false);
+        mainConfig.set("allow-worlds", allowedWorlds);
+        mainConfig.set("save-look", true);
         try {
             mainConfig.save(configFile);
         } catch (IOException e) {
@@ -65,6 +71,7 @@ public class ConfigManager {
         messagesConfig.set("is-moving", "&cTeleportation canceled because you was moved when you waiting for teleportation!");
         messagesConfig.set("no-permission", "&cYou don't have permission to use this command!");
         messagesConfig.set("successfully-reloaded", "&aPlugin myHome has been reloaded!");
+        messagesConfig.set("bad-world", "&cYou cannot set home in this world!");
         try {
             messagesConfig.save(messagesFile);
         } catch (IOException e) {

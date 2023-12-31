@@ -1,0 +1,7 @@
+me\zombix\myhome\MyHome.class
+me\zombix\myhome\Config\CommandsTabCompleter.class
+me\zombix\myhome\commands\HomeCommand.class
+me\zombix\myhome\commands\SetHomeCommand.class
+me\zombix\myhome\Config\ConfigManager.class
+me\zombix\myhome\commands\ReloadCommand.class
+me\zombix\myhome\commands\MyHomeCommand.class

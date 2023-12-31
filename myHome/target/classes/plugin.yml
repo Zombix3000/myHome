@@ -1,5 +1,5 @@
 name: myHome
-version: '${project.version}'
+version: '1.1'
 main: me.zombix.myhome.MyHome
 api-version: '1.20'
 commands:
