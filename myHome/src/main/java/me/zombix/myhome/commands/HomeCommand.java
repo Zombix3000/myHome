@@ -41,7 +41,7 @@ public class HomeCommand implements CommandExecutor, Listener {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
-            if (player.hasPermission("sethomeplugin.home")) {
+            if (player.hasPermission("myhome.home")) {
                 FileConfiguration homesConfig = configManager.getHomesConfig();
                 FileConfiguration mainConfig = configManager.getMainConfig();
 

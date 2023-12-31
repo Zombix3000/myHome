@@ -27,7 +27,7 @@ public class SetHomeCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
-            if (player.hasPermission("sethomeplugin.sethome")) {
+            if (player.hasPermission("myhome.sethome")) {
                 FileConfiguration homesConfig = configManager.getHomesConfig();
 
                 homesConfig.set(player.getUniqueId().toString() + ".x", player.getLocation().getX());
