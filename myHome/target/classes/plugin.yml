@@ -1,5 +1,5 @@
 name: myHome
-version: '1.1'
+version: '2.0'
 main: me.zombix.myhome.MyHome
 api-version: '1.20'
 commands:
@@ -9,18 +9,26 @@ commands:
   home:
     description: Teleport to your home
     usage: /home
+  homes:
+    description: Show player homes list
+    usage: /homes
   reload:
     description: Reload plugin
-    usage: /myhome:reload
+    usage: /myhome reload
   myhome:
     description: myHome plugin command
-    usage: /myhome <sethome/home/reload>
+    usage: /myhome <reload/sethome/home/setdescription> <home_number/description/setdescription/delete> <description/home_number>
     aliases:
       - sethome
       - home
+      - setdescription
+      - homes
       - reload
 
 permissions:
+  myhome.myhome:
+    description: Allow to use /myhome command
+    default: true
   myhome.home:
     description: Allow to use /home command
     default: true
@@ -28,5 +36,17 @@ permissions:
     description: Allow to use /sethome command
     default: true
   myhome.reload:
-    description: Allow to use /myhome:reload command
-    default: false
+    description: Allow to use /myhome reload command
+    default: op
+  myhome.homes:
+    description: Allow to use /homes command
+    default: true
+  myhome.setdescription:
+    description: Allow to use /home setdescription command
+    default: true
+  myhome.deletehome:
+    description: Allow to use /home delete command
+    default: true
+  myhome.managepermissions:
+    description: Allow to use /myhome addpermission, editpermission, deletepermission command
+    default: true

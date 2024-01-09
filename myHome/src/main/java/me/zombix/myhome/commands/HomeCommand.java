@@ -7,13 +7,17 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
-public class HomeCommand implements CommandExecutor, Listener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class HomeCommand implements CommandExecutor, Listener, TabCompleter {
 
     private final JavaPlugin plugin;
     private final ConfigManager configManager;
@@ -23,6 +27,8 @@ public class HomeCommand implements CommandExecutor, Listener {
     private final String noPermission;
     private final String delayMessage;
     BukkitTask movementTask = null;
+    private final String badSender;
+    private final String noInteger;
 
     public HomeCommand(JavaPlugin plugin, ConfigManager configManager) {
         FileConfiguration messagesConfig = configManager.getMessagesConfig();
@@ -34,6 +40,8 @@ public class HomeCommand implements CommandExecutor, Listener {
         this.movingMessage = ChatColor.translateAlternateColorCodes('&', messagesConfig.getString("is-moving"));
         this.noPermission = ChatColor.translateAlternateColorCodes('&', messagesConfig.getString("no-permission"));
         this.delayMessage = ChatColor.translateAlternateColorCodes('&', messagesConfig.getString("is-delay"));
+        this.badSender = ChatColor.translateAlternateColorCodes('&', messagesConfig.getString("bad-sender"));
+        this.noInteger = ChatColor.translateAlternateColorCodes('&', messagesConfig.getString("home-no-integer"));
     }
 
     @Override
@@ -41,11 +49,66 @@ public class HomeCommand implements CommandExecutor, Listener {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
-            if (player.hasPermission("myhome.home")) {
-                FileConfiguration homesConfig = configManager.getHomesConfig();
-                FileConfiguration mainConfig = configManager.getMainConfig();
+            if (args.length > 0) {
+                String subCommand = args[0];
+                String subCommand2 = null;
+                if (args.length > 1) {
+                    subCommand2 = args[1];
+                }
 
-                if (homesConfig.get(player.getUniqueId().toString()) != null) {
+                if (subCommand.equalsIgnoreCase("setdescription")) {
+                    SetDescriptionCommand setDescriptionCommand = new SetDescriptionCommand(configManager);
+                    return setDescriptionCommand.onCommand(sender, command, label, args);
+                } else if (subCommand.equalsIgnoreCase("delete")) {
+                    DeleteHomeCommand deleteHomeCommand = new DeleteHomeCommand(configManager);
+                    return deleteHomeCommand.onCommand(sender, command, label, args);
+                } else {
+                    if (subCommand2 == null) {
+                        ProcessHomeCommand(player, args);
+                    } else {
+                        if (subCommand2.equalsIgnoreCase("setdescription")) {
+                            SetDescriptionCommand setDescriptionCommand = new SetDescriptionCommand(configManager);
+                            return setDescriptionCommand.onCommand(sender, command, label, args);
+                        } else if (subCommand2.equalsIgnoreCase("delete")) {
+                            DeleteHomeCommand deleteHomeCommand = new DeleteHomeCommand(configManager);
+                            return deleteHomeCommand.onCommand(sender, command, label, args);
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+            } else {
+                ProcessHomeCommand(player, args);
+            }
+            return true;
+        } else {
+            sender.sendMessage(badSender);
+            return true;
+        }
+    }
+
+    private void ProcessHomeCommand(Player player, String[] args) {
+        if (player.hasPermission("myhome.home")) {
+            FileConfiguration homesConfig = configManager.getHomesConfig();
+            FileConfiguration mainConfig = configManager.getMainConfig();
+
+            if (homesConfig.get(player.getUniqueId().toString()) != null) {
+                int homeNumber = 0;
+                String isOk = "yes";
+                if (args.length == 0) {
+                    homeNumber = mainConfig.getInt("default-tp-home");
+                } else {
+                    try {
+                        homeNumber = Integer.parseInt(args[0]);
+                    } catch (NumberFormatException e) {
+                        isOk = "no";
+                        player.sendMessage(noInteger.replace("{player}", player.getName()));
+                    }
+                }
+
+                if (isOk.equals("yes")) {
+                    int finalHomeNumber = homeNumber;
+
                     if (mainConfig.getBoolean("delay-require")) {
                         int delaySeconds = mainConfig.getInt("delay");
                         String delayStr = String.valueOf(delaySeconds);
@@ -58,7 +121,7 @@ public class HomeCommand implements CommandExecutor, Listener {
                                     float yaw = player.getLocation().getYaw();
                                     float pitch = player.getLocation().getPitch();
 
-                                    teleportHome(player, homesConfig, (int) yaw, (int) pitch);
+                                    teleportHome(player, homesConfig, (int) yaw, (int) pitch, finalHomeNumber);
                                 }
                             }, delaySeconds * 20L).getTaskId();
 
@@ -88,7 +151,7 @@ public class HomeCommand implements CommandExecutor, Listener {
                                         float yaw = player.getLocation().getYaw();
                                         float pitch = player.getLocation().getPitch();
 
-                                        teleportHome(player, homesConfig, (int) yaw, (int) pitch);
+                                        teleportHome(player, homesConfig, (int) yaw, (int) pitch, finalHomeNumber);
                                         if (movementTask != null) {
                                             movementTask.cancel();
                                         }
@@ -104,34 +167,28 @@ public class HomeCommand implements CommandExecutor, Listener {
                         float yaw = player.getLocation().getYaw();
                         float pitch = player.getLocation().getPitch();
 
-                        teleportHome(player, homesConfig, (int) yaw, (int) pitch);
+                        teleportHome(player, homesConfig, (int) yaw, (int) pitch, finalHomeNumber);
                     }
-                } else {
-                    player.sendMessage(noHomeMessage.replace("{player}", player.getName()));
                 }
-                return true;
             } else {
-                player.sendMessage(noPermission.replace("{player}", player.getName()));
-                return false;
+                player.sendMessage(noHomeMessage.replace("{player}", player.getName()));
             }
         } else {
-            sender.sendMessage("This command can only be used by a player!");
-            return true;
+            player.sendMessage(noPermission.replace("{player}", player.getName()));
         }
-
     }
 
-    private void teleportHome(Player player, FileConfiguration homesConfig, Integer yawDefault, Integer pitchDefault) {
+    private void teleportHome(Player player, FileConfiguration homesConfig, Integer yawDefault, Integer pitchDefault, Integer homeNumber) {
         FileConfiguration mainConfig = configManager.getMainConfig();
 
-        double x = homesConfig.getDouble(player.getUniqueId().toString() + ".x");
-        double y = homesConfig.getDouble(player.getUniqueId().toString() + ".y");
-        double z = homesConfig.getDouble(player.getUniqueId().toString() + ".z");
-        String worldName = homesConfig.getString(player.getUniqueId().toString() + ".world");
+        double x = homesConfig.getDouble(player.getUniqueId().toString() + "." + homeNumber + ".location.x");
+        double y = homesConfig.getDouble(player.getUniqueId().toString() + "." + homeNumber + ".location.y");
+        double z = homesConfig.getDouble(player.getUniqueId().toString() + "." + homeNumber + ".location.z");
+        String worldName = homesConfig.getString(player.getUniqueId().toString() + "." + homeNumber + ".location.world");
 
         if (mainConfig.getBoolean("save-look")) {
-            float yaw = (float) configManager.getHomesConfig().getDouble(player.getUniqueId() + ".yaw");
-            float pitch = (float) configManager.getHomesConfig().getDouble(player.getUniqueId() + ".pitch");
+            float yaw = (float) configManager.getHomesConfig().getDouble(player.getUniqueId().toString() + "." + homeNumber + ".location.yaw");
+            float pitch = (float) configManager.getHomesConfig().getDouble(player.getUniqueId().toString() + "." + homeNumber + ".location.pitch");
 
             player.teleport(new Location(player.getServer().getWorld(worldName), x, y, z, yaw, pitch));
         } else {
@@ -143,4 +200,30 @@ public class HomeCommand implements CommandExecutor, Listener {
 
         player.sendMessage(homeTPMessage.replace("{player}", player.getName()));
     }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> completions = new ArrayList<>();
+
+        if (args.length == 1) {
+            String enteredCommand = args[0].toLowerCase();
+
+            List<String> subCommands = new ArrayList<>();
+
+            subCommands.add("setdescription");
+            subCommands.add("delete");
+
+            for (String subCommand : subCommands) {
+                if (subCommand.startsWith(enteredCommand)) {
+                    completions.add(subCommand);
+                }
+            }
+        }
+
+        completions.replaceAll(completion -> completion.replaceFirst("^myhome:", ""));
+
+        completions.sort(String.CASE_INSENSITIVE_ORDER);
+        return completions;
+    }
+
 }

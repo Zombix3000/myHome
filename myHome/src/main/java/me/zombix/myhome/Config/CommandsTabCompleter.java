@@ -18,11 +18,40 @@ public class CommandsTabCompleter implements TabCompleter {
 
             List<String> subCommands = new ArrayList<>();
 
-            subCommands.add("sethome");
-            subCommands.add("home");
+            switch (command.getName().toLowerCase()) {
+                case "myhome":
+                    subCommands.add("sethome");
+                    subCommands.add("home");
+                    subCommands.add("setdescription");
 
-            if (sender.hasPermission("myhome.reload") || sender.isOp()) {
-                subCommands.add("reload");
+                    if (sender.hasPermission("myhome.reload") || sender.isOp()) {
+                        subCommands.add("reload");
+                    }
+
+                    break;
+                case "home":
+                    subCommands.add("setdescription");
+                    subCommands.add("delete");
+
+                    break;
+            }
+
+            for (String subCommand : subCommands) {
+                if (subCommand.startsWith(enteredCommand)) {
+                    completions.add(subCommand);
+                }
+            }
+        } else if (args.length == 2) {
+            String enteredCommand = args[1].toLowerCase();
+
+            List<String> subCommands = new ArrayList<>();
+
+            switch (args[0].toLowerCase()) {
+                case "home":
+                    subCommands.add("setdescription");
+                    subCommands.add("delete");
+
+                    break;
             }
 
             for (String subCommand : subCommands) {
@@ -31,6 +60,8 @@ public class CommandsTabCompleter implements TabCompleter {
                 }
             }
         }
+
+        completions.replaceAll(completion -> completion.replaceFirst("^myhome:", ""));
 
         completions.sort(String.CASE_INSENSITIVE_ORDER);
         return completions;

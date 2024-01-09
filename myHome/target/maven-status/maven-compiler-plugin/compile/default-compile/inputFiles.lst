@@ -3,5 +3,11 @@ D:\krzys\spigot\plugins\myHome\src\main\java\me\zombix\myhome\Config\ConfigManag
 D:\krzys\spigot\plugins\myHome\src\main\java\me\zombix\myhome\commands\MyHomeCommand.java
 D:\krzys\spigot\plugins\myHome\src\main\java\me\zombix\myhome\MyHome.java
 D:\krzys\spigot\plugins\myHome\src\main\java\me\zombix\myhome\commands\HomeCommand.java
-D:\krzys\spigot\plugins\myHome\src\main\java\me\zombix\myhome\Config\CommandsTabCompleter.java
+D:\krzys\spigot\plugins\myHome\src\main\java\me\zombix\myhome\commands\SetDescriptionCommand.java
+D:\krzys\spigot\plugins\myHome\src\main\java\me\zombix\myhome\commands\DeleteHomeCommand.java
+D:\krzys\spigot\plugins\myHome\src\main\java\me\zombix\myhome\commands\DeletePermissionCommand.java
+D:\krzys\spigot\plugins\myHome\src\main\java\me\zombix\myhome\commands\AddPermissionCommand.java
 D:\krzys\spigot\plugins\myHome\src\main\java\me\zombix\myhome\commands\SetHomeCommand.java
+D:\krzys\spigot\plugins\myHome\src\main\java\me\zombix\myhome\Config\CommandsTabCompleter.java
+D:\krzys\spigot\plugins\myHome\src\main\java\me\zombix\myhome\commands\EditPermissionCommand.java
+D:\krzys\spigot\plugins\myHome\src\main\java\me\zombix\myhome\commands\HomesCommand.java

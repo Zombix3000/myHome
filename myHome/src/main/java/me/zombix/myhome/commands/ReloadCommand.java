@@ -27,7 +27,7 @@ public class ReloadCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
-            if (sender.hasPermission("myhome.reload") || player.isOp()) {
+            if (sender.hasPermission("myhome.reload")) {
                 configManager.setupConfig();
 
                 sender.sendMessage(successfullyReloaded.replace("{player}", player.getName()));

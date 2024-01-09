@@ -1,13 +1,10 @@
 package me.zombix.myhome;
 
-import me.zombix.myhome.commands.HomeCommand;
-import me.zombix.myhome.commands.SetHomeCommand;
+import me.zombix.myhome.commands.*;
 import me.zombix.myhome.Config.ConfigManager;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
-import me.zombix.myhome.commands.ReloadCommand;
-import me.zombix.myhome.commands.MyHomeCommand;
 import me.zombix.myhome.Config.CommandsTabCompleter;
 
 public class MyHome extends JavaPlugin {
@@ -35,6 +32,7 @@ public class MyHome extends JavaPlugin {
         CommandExecutor homeCommand = new HomeCommand(this, configManager);
         CommandExecutor reloadCommand = new ReloadCommand(configManager);
         CommandExecutor myHomeCommand = new MyHomeCommand(this, configManager);
+        CommandExecutor homesCommand = new HomesCommand(configManager);
         TabCompleter commandsTabCompleter = new CommandsTabCompleter();
 
         getCommand("sethome").setExecutor(setHomeCommand);
@@ -42,6 +40,8 @@ public class MyHome extends JavaPlugin {
         getCommand("reload").setExecutor(reloadCommand);
         getCommand("myhome").setExecutor(myHomeCommand);
         getCommand("myhome").setTabCompleter(commandsTabCompleter);
+        getCommand("homes").setExecutor(homesCommand);
+        getCommand("homes").setTabCompleter(commandsTabCompleter);
     }
 
 }

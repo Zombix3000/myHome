@@ -1,7 +1,13 @@
+me\zombix\myhome\commands\EditPermissionCommand.class
+me\zombix\myhome\commands\DeleteHomeCommand.class
+me\zombix\myhome\commands\SetDescriptionCommand.class
 me\zombix\myhome\MyHome.class
+me\zombix\myhome\commands\AddPermissionCommand.class
 me\zombix\myhome\Config\CommandsTabCompleter.class
 me\zombix\myhome\commands\HomeCommand.class
+me\zombix\myhome\commands\HomesCommand.class
 me\zombix\myhome\commands\SetHomeCommand.class
 me\zombix\myhome\Config\ConfigManager.class
 me\zombix\myhome\commands\ReloadCommand.class
 me\zombix\myhome\commands\MyHomeCommand.class
+me\zombix\myhome\commands\DeletePermissionCommand.class

@@ -1,45 +1,58 @@
 package me.zombix.myhome.commands;
 
 import me.zombix.myhome.Config.ConfigManager;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MyHomeCommand implements CommandExecutor, TabCompleter {
 
     private final JavaPlugin plugin;
     private final ConfigManager configManager;
+    private final String noPermission;
 
     public MyHomeCommand(JavaPlugin plugin, ConfigManager configManager) {
+        FileConfiguration messagesConfig = configManager.getMessagesConfig();
+
         this.plugin = plugin;
         this.configManager = configManager;
+        this.noPermission = ChatColor.translateAlternateColorCodes('&', messagesConfig.getString("no-permission"));
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length == 0) {
-            return false;
-        }
+        if (sender.hasPermission("myhome.myhome")) {
+            if (args.length == 0) {
+                return false;
+            }
 
-        String subCommand = args[0];
+            String subCommand = args[0];
 
-        if (subCommand.equalsIgnoreCase("sethome")) {
-            SetHomeCommand setHomeCommand = new SetHomeCommand(configManager);
-            return setHomeCommand.onCommand(sender, command, label, args);
-        } else if (subCommand.equalsIgnoreCase("home")) {
-            HomeCommand homeCommand = new HomeCommand(plugin, configManager);
-            return homeCommand.onCommand(sender, command, label, args);
-        } else if (subCommand.equalsIgnoreCase("reload")) {
-            ReloadCommand reloadCommand = new ReloadCommand(configManager);
-            return reloadCommand.onCommand(sender, command, label, args);
+            if (subCommand.equalsIgnoreCase("sethome")) {
+                SetHomeCommand setHomeCommand = new SetHomeCommand(configManager);
+                return setHomeCommand.onCommand(sender, command, label, args);
+            } else if (subCommand.equalsIgnoreCase("home")) {
+                HomeCommand homeCommand = new HomeCommand(plugin, configManager);
+                return homeCommand.onCommand(sender, command, label, args);
+            } else if (subCommand.equalsIgnoreCase("reload")) {
+                ReloadCommand reloadCommand = new ReloadCommand(configManager);
+                return reloadCommand.onCommand(sender, command, label, args);
+            } else if (subCommand.equalsIgnoreCase("homes")) {
+                HomesCommand homesCommand = new HomesCommand(configManager);
+                return homesCommand.onCommand(sender, command, label, args);
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            sender.sendMessage(noPermission.replace("{player}", sender.getName()));
+            return true;
         }
     }
 
@@ -58,6 +71,21 @@ public class MyHomeCommand implements CommandExecutor, TabCompleter {
 
             subCommands.add("home");
             subCommands.add("sethome");
+            subCommands.add("setdescription");
+            subCommands.add("homes");
+
+            for (String subCommand : subCommands) {
+                if (subCommand.startsWith(enteredCommand)) {
+                    completions.add(subCommand);
+                }
+            }
+        } else if (args.length == 2) {
+            String enteredCommand = args[1].toLowerCase();
+
+            List<String> subCommands = new ArrayList<>();
+
+            subCommands.add("setdescription");
+            subCommands.add("delete");
 
             for (String subCommand : subCommands) {
                 if (subCommand.startsWith(enteredCommand)) {
