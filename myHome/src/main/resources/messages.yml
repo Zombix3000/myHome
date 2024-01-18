@@ -1,0 +1,72 @@
+##############################
+# --- myHome v2.1 Plugin --- #
+##############################
+
+#This is a messages for myHome plugin!
+#More info you can find in plugin documentation or in our discord: {link}
+
+#Variables:
+#{player} = player name - Usage in all without messages for command what doesn't be run by player.
+#{homeNumber} = now using home number - Usage in all what is connected to homes.
+#{delay} = delay in seconds - Usage in: is-delay.
+#{description} = description was set - Usage in: set-home-with-ds, new-description.
+
+#This message will be sent if player set home without description. Default: '&aYou set your &b{homeNumber} &ahome, &6{player}&a!'
+set-home-without-ds: '&aYou set your &b{homeNumber} &ahome, &6{player}&a!'
+
+#This message will be sent if player set home with description. Default: '&aYou set your &b{homeNumber} &ahome with description: &b{description}&a, &6{player}&a!'
+set-home-with-ds: '&aYou set your &b{homeNumber} &ahome with description: &b{description}&a, &6{player}&a!'
+
+#This message will be sent if player use command like /home but not set home yet. Default: '&cYou don't set a home yet!'
+no-home: "&cYou don't set a home yet!"
+
+#This message will be sent if player was successfully teleported to home. Default: '&aSuccessfully teleported to home!'
+home-tp: '&aSuccessfully teleported to home!'
+
+#This message will be sent if player wait for teleportation to home (after run /home command when delay-require is set to true). Default: '&7Teleporting in {delay} seconds...'
+is-delay: '&7Teleporting in {delay} seconds...'
+
+#This message will be sent if player was moved while teleportation and allow-movement is set to false. Default: '&cTeleportation canceled because you was moved when you waiting for teleportation!'
+is-moving: '&cTeleportation canceled because you was moved when you waiting for teleportation!'
+
+#This message will be sent if player run command but doesn't have permission to do this. Default: '&cYou don't have permission to use this command!'
+no-permission: "&cYou don't have permission to use this command!"
+
+#This message will be sent if someone run /myhome reload command and config was successfully reloaded. Default: '&aPlugin myHome has been reloaded!'
+successfully-reloaded: '&aPlugin myHome has been reloaded!'
+
+#This message will be sent if player try to set home but world where is located is not on allow-worlds list. Default: '&cYou cannot set home in this world!'
+bad-world: '&cYou cannot set home in this world!'
+
+#This message will be sent if player run command like /home and in argument didn't give number but something else. Default: '&cHome number must be integer!'
+home-no-integer: '&cHome number must be integer!'
+
+#This message will be sent if player try to set more homes than limit is. Default: '&cHomes limit is &b{homesLimit}&c!'
+home-limit: '&cHomes limit is &b{homesLimit}&c!'
+
+#This message will be sent if player try to set home but set all allowed homes nuber and auto-overwriting-homes is set to false. Default: '&cYou already save locations in all homes!'
+all-homes-busy: '&cYou already save locations in all homes!'
+
+#This message will be sent if (I don't know). Default: '&cFailed to load yml configuration! Check what wrong and try again.'
+failed-load-configuration: '&cFailed to load yml configuration! Check what wrong and try again.'
+
+#This is a header for /homes command. Default: '&aYour homes:'
+header-homes-list: '&aYour homes:'
+
+##This is a header for /homes <player> command. Default: '&aYour homes:'
+#header-homes-list-another-player: '&6{player} &ahomes:'
+
+#This message will be sent if command sender is not a player. Default: '&cThis command can only be used by a player!'
+bad-sender: '&cThis command can only be used by a player!'
+
+#This message will be sent if player try to teleport home but don't have home with this number. Default: '&cYou don't have a home with this number!'
+bad-home-number: "&cYou don't have a home with this number!"
+
+#This message will be sent if player set new description for home. Default: '&aSuccessfully set new description for &b{homeNumber} &ahome!'
+new-description: '&aSuccessfully set new description for &b{homeNumber} &ahome!'
+
+#This message will be sent if player delete home. Default: '&aSuccessfully deleted your &b{homeNumber} &ahome!'
+home-deleted: '&aSuccessfully deleted your &b{homeNumber} &ahome!'
+
+#This message will be sent if added new permission. Default: '&aSuccessfully added &6{permission} &apermission with &b{homesNumber} &ahomes!'
+added-permission: '&aSuccessfully added &6{permission} &apermission with &b{homesNumber} &ahomes!'

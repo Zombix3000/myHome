@@ -1,5 +1,5 @@
 name: myHome
-version: '2.0'
+version: '2.1'
 main: me.zombix.myhome.MyHome
 api-version: '1.20'
 commands:
@@ -49,4 +49,10 @@ permissions:
     default: true
   myhome.managepermissions:
     description: Allow to use /myhome addpermission, editpermission, deletepermission command
-    default: true
+    default: op
+  myhome.admin:
+    description: Allow to make everything
+    default: op
+  myhome.update:
+    description: Allow to use /myhome update command
+    default: op

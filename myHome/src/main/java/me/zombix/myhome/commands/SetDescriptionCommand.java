@@ -54,11 +54,11 @@ public class SetDescriptionCommand implements CommandExecutor {
 
                 String playerUUID = player.getUniqueId().toString();
 
-                if (homesConfig.contains(playerUUID + "." + homeNumber)) {
-                    homesConfig.set(playerUUID + "." + homeNumber + ".description", newDescription);
+                if (homesConfig.contains("homes" + "." + playerUUID + "." + homeNumber)) {
+                    homesConfig.set("homes" + "." + playerUUID + "." + homeNumber + ".description", newDescription);
 
                     configManager.saveHomesConfig();
-                    player.sendMessage(setNewDescription.replace("{player}", player.getName()).replace("{homeNumber}", String.valueOf(homeNumber)));
+                    player.sendMessage(setNewDescription.replace("{player}", player.getName()).replace("{homeNumber}", String.valueOf(homeNumber)).replace("{description}", newDescription));
                 } else {
                     player.sendMessage(badHomeNumber.replace("{player}", player.getName()));
                 }

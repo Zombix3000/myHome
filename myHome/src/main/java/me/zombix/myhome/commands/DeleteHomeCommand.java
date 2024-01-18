@@ -42,8 +42,6 @@ public class DeleteHomeCommand implements CommandExecutor {
                     player.sendMessage("/myhome home delete <home_number>");
                     return true;
                 }
-                player.sendMessage(command.toString());
-                player.sendMessage(String.valueOf(args.length));
 
                 int homeNumber;
                 try {
@@ -64,8 +62,8 @@ public class DeleteHomeCommand implements CommandExecutor {
 
                 String playerUUID = player.getUniqueId().toString();
 
-                if (homesConfig.contains(playerUUID + "." + homeNumber)) {
-                    homesConfig.set(playerUUID + "." + homeNumber, null);
+                if (homesConfig.contains("homes" + "." + playerUUID + "." + homeNumber)) {
+                    homesConfig.set("homes" + "." + playerUUID + "." + homeNumber, null);
 
                     configManager.saveHomesConfig();
                     player.sendMessage(homeDeleted.replace("{player}", player.getName()).replace("{homeNumber}", String.valueOf(homeNumber)));

@@ -27,6 +27,14 @@ public class CommandsTabCompleter implements TabCompleter {
                     if (sender.hasPermission("myhome.reload") || sender.isOp()) {
                         subCommands.add("reload");
                     }
+                    if (sender.hasPermission("myhome.managepermissions")) {
+                        subCommands.add("addpermission");
+                        subCommands.add("editpermission");
+                        subCommands.add("deletepermission");
+                    }
+                    if (sender.hasPermission("myhome.reload")) {
+                        subCommands.add("update");
+                    }
 
                     break;
                 case "home":

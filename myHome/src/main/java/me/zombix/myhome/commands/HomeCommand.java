@@ -92,7 +92,7 @@ public class HomeCommand implements CommandExecutor, Listener, TabCompleter {
             FileConfiguration homesConfig = configManager.getHomesConfig();
             FileConfiguration mainConfig = configManager.getMainConfig();
 
-            if (homesConfig.get(player.getUniqueId().toString()) != null) {
+            if (homesConfig.get("homes" + "." + player.getUniqueId().toString()) != null) {
                 int homeNumber = 0;
                 String isOk = "yes";
                 if (args.length == 0) {
@@ -181,14 +181,14 @@ public class HomeCommand implements CommandExecutor, Listener, TabCompleter {
     private void teleportHome(Player player, FileConfiguration homesConfig, Integer yawDefault, Integer pitchDefault, Integer homeNumber) {
         FileConfiguration mainConfig = configManager.getMainConfig();
 
-        double x = homesConfig.getDouble(player.getUniqueId().toString() + "." + homeNumber + ".location.x");
-        double y = homesConfig.getDouble(player.getUniqueId().toString() + "." + homeNumber + ".location.y");
-        double z = homesConfig.getDouble(player.getUniqueId().toString() + "." + homeNumber + ".location.z");
-        String worldName = homesConfig.getString(player.getUniqueId().toString() + "." + homeNumber + ".location.world");
+        double x = homesConfig.getDouble("homes" + "." + player.getUniqueId().toString() + "." + homeNumber + ".location.x");
+        double y = homesConfig.getDouble("homes" + "." + player.getUniqueId().toString() + "." + homeNumber + ".location.y");
+        double z = homesConfig.getDouble("homes" + "." + player.getUniqueId().toString() + "." + homeNumber + ".location.z");
+        String worldName = homesConfig.getString("homes" + "." + player.getUniqueId().toString() + "." + homeNumber + ".location.world");
 
         if (mainConfig.getBoolean("save-look")) {
-            float yaw = (float) configManager.getHomesConfig().getDouble(player.getUniqueId().toString() + "." + homeNumber + ".location.yaw");
-            float pitch = (float) configManager.getHomesConfig().getDouble(player.getUniqueId().toString() + "." + homeNumber + ".location.pitch");
+            float yaw = (float) configManager.getHomesConfig().getDouble("homes" + "." + player.getUniqueId().toString() + "." + homeNumber + ".location.yaw");
+            float pitch = (float) configManager.getHomesConfig().getDouble("homes" + "." + player.getUniqueId().toString() + "." + homeNumber + ".location.pitch");
 
             player.teleport(new Location(player.getServer().getWorld(worldName), x, y, z, yaw, pitch));
         } else {

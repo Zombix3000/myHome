@@ -1,6 +1,7 @@
 package me.zombix.myhome.commands;
 
 import me.zombix.myhome.Config.ConfigManager;
+import me.zombix.myhome.Config.Updates;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,13 +17,15 @@ public class MyHomeCommand implements CommandExecutor, TabCompleter {
 
     private final JavaPlugin plugin;
     private final ConfigManager configManager;
+    private final Updates updates;
     private final String noPermission;
 
-    public MyHomeCommand(JavaPlugin plugin, ConfigManager configManager) {
+    public MyHomeCommand(JavaPlugin plugin, ConfigManager configManager, Updates updates) {
         FileConfiguration messagesConfig = configManager.getMessagesConfig();
 
         this.plugin = plugin;
         this.configManager = configManager;
+        this.updates = updates;
         this.noPermission = ChatColor.translateAlternateColorCodes('&', messagesConfig.getString("no-permission"));
     }
 
@@ -47,6 +50,12 @@ public class MyHomeCommand implements CommandExecutor, TabCompleter {
             } else if (subCommand.equalsIgnoreCase("homes")) {
                 HomesCommand homesCommand = new HomesCommand(configManager);
                 return homesCommand.onCommand(sender, command, label, args);
+            } else if (subCommand.equalsIgnoreCase("addpermission")) {
+                AddPermissionCommand addPermissionCommand = new AddPermissionCommand(configManager);
+                return addPermissionCommand.onCommand(sender, command, label, args);
+            } else if (subCommand.equalsIgnoreCase("update")) {
+                UpdateCommand updateCommand = new UpdateCommand(configManager, updates);
+                return updateCommand.onCommand(sender, command, label, args);
             } else {
                 return false;
             }
@@ -65,8 +74,16 @@ public class MyHomeCommand implements CommandExecutor, TabCompleter {
 
             List<String> subCommands = new ArrayList<>();
 
-            if (sender.hasPermission("myhome.reload") || sender.isOp()) {
+            if (sender.hasPermission("myhome.reload")) {
                 subCommands.add("reload");
+            }
+            if (sender.hasPermission("myhome.managepermissions")) {
+                subCommands.add("addpermission");
+                subCommands.add("editpermission");
+                subCommands.add("deletepermission");
+            }
+            if (sender.hasPermission("myhome.update")) {
+                subCommands.add("update");
             }
 
             subCommands.add("home");

@@ -1,0 +1,39 @@
+##############################
+# --- myHome v2.1 Plugin --- #
+##############################
+
+#This is a config for myHome plugin!
+#More info you can find in plugin documentation or in our discord: {link}
+
+#This option set plugin should checking for new updates. Default: true
+check-for-updates: true
+
+#This option set enabled require delay to teleportation. Default: true
+delay-require: true
+
+#This option set time of delay needed to teleportation. Default: 5
+delay: 5
+
+#This option set enabled allow player to move while teleporting. Default: false
+allow-movement: false
+
+#This option set enabled delay require to teleportation. Default: world, world_nether, world_end
+allow-worlds:
+  - world
+  - world_nether
+  - world_end
+
+#This option set enabled save player view direction and teleported with it. Default: true
+save-look: true
+
+#This option set default homes number what player can set. Default: 1
+default-homes: 1
+
+#This option set enabled auto overwriting homes when home number is not given. Default: true
+auto-overwriting-homes: true
+
+#This option set default home number for auto overwriting homes option. Default: 1
+default-overwriting-home: 1
+
+#This option set default home number for teleportation when home number is not given. Default: 1
+default-tp-home: 1

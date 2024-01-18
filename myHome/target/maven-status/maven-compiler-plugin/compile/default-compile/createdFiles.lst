@@ -1,6 +1,8 @@
 me\zombix\myhome\commands\EditPermissionCommand.class
+me\zombix\myhome\commands\UpdateCommand.class
 me\zombix\myhome\commands\DeleteHomeCommand.class
 me\zombix\myhome\commands\SetDescriptionCommand.class
+me\zombix\myhome\Config\Updates.class
 me\zombix\myhome\MyHome.class
 me\zombix\myhome\commands\AddPermissionCommand.class
 me\zombix\myhome\Config\CommandsTabCompleter.class

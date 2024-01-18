@@ -106,20 +106,20 @@ public class SetHomeCommand implements CommandExecutor {
                     description = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
                 }
 
-                homesConfig.set(playerUUID + "." + homeNumber + ".location.world", worldName);
-                homesConfig.set(playerUUID + "." + homeNumber + ".location.x", x);
-                homesConfig.set(playerUUID + "." + homeNumber + ".location.y", y);
-                homesConfig.set(playerUUID + "." + homeNumber + ".location.z", z);
+                homesConfig.set("homes" + "." + playerUUID + "." + homeNumber + ".location.world", worldName);
+                homesConfig.set("homes" + "." + playerUUID + "." + homeNumber + ".location.x", x);
+                homesConfig.set("homes" + "." + playerUUID + "." + homeNumber + ".location.y", y);
+                homesConfig.set("homes" + "." + playerUUID + "." + homeNumber + ".location.z", z);
 
                 if (configManager.getMainConfig().getBoolean("save-look")) {
                     float yaw = homeLocation.getYaw();
                     float pitch = homeLocation.getPitch();
 
-                    homesConfig.set(playerUUID + "." + homeNumber + ".location.yaw", yaw);
-                    homesConfig.set(playerUUID + "." + homeNumber + ".location.pitch", pitch);
+                    homesConfig.set("homes" + "." + playerUUID + "." + homeNumber + ".location.yaw", yaw);
+                    homesConfig.set("homes" + "." + playerUUID + "." + homeNumber + ".location.pitch", pitch);
                 }
 
-                homesConfig.set(playerUUID + "." + homeNumber + ".description", description);
+                homesConfig.set("homes" + "." + playerUUID + "." + homeNumber + ".description", description);
 
                 configManager.saveHomesConfig();
 
@@ -147,7 +147,7 @@ public class SetHomeCommand implements CommandExecutor {
         String playerUUID = player.getUniqueId().toString();
 
         for (int i = 1; i <= homesLimit; i++) {
-            if (homesConfig.contains(playerUUID + "." + i)) {
+            if (homesConfig.contains("homes" + "." + playerUUID + "." + i)) {
                 continue;
             } else {
                 return i;

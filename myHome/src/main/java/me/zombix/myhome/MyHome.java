@@ -1,5 +1,6 @@
 package me.zombix.myhome;
 
+import me.zombix.myhome.Config.Updates;
 import me.zombix.myhome.commands.*;
 import me.zombix.myhome.Config.ConfigManager;
 import org.bukkit.command.CommandExecutor;
@@ -10,6 +11,7 @@ import me.zombix.myhome.Config.CommandsTabCompleter;
 public class MyHome extends JavaPlugin {
 
     private ConfigManager configManager;
+    private Updates updates;
 
     @Override
     public void onEnable() {
@@ -19,11 +21,15 @@ public class MyHome extends JavaPlugin {
         getLogger().info("Plugin myHome has been enabled!");
 
         registerCommands();
+
+        if (configManager.getMainConfig().getBoolean("check-for-updates")) {
+            getLogger().info("Checking for updates...");
+            checkForUpdates();
+        }
     }
 
     @Override
     public void onDisable() {
-        configManager.saveHomesConfig();
         getLogger().info("Plugin myHome has been disabled!");
     }
 
@@ -31,7 +37,7 @@ public class MyHome extends JavaPlugin {
         CommandExecutor setHomeCommand = new SetHomeCommand(configManager);
         CommandExecutor homeCommand = new HomeCommand(this, configManager);
         CommandExecutor reloadCommand = new ReloadCommand(configManager);
-        CommandExecutor myHomeCommand = new MyHomeCommand(this, configManager);
+        CommandExecutor myHomeCommand = new MyHomeCommand(this, configManager, updates);
         CommandExecutor homesCommand = new HomesCommand(configManager);
         TabCompleter commandsTabCompleter = new CommandsTabCompleter();
 
@@ -42,6 +48,21 @@ public class MyHome extends JavaPlugin {
         getCommand("myhome").setTabCompleter(commandsTabCompleter);
         getCommand("homes").setExecutor(homesCommand);
         getCommand("homes").setTabCompleter(commandsTabCompleter);
+    }
+
+    private void checkForUpdates() {
+        String pluginName = "myHome";
+        String currentVersion = getDescription().getVersion();
+        String owner = "Zombix3000";
+        String repository = "myHome";
+
+        Updates updates = new Updates(pluginName, currentVersion, owner, repository);
+
+        if (updates.checkForUpdates()) {
+            getLogger().warning("A new version of the plugin is available! (Current: v" + getDescription().getVersion() + ", Latest: " + updates.getLatestVersion() + ")");
+        } else {
+            getLogger().info("The current version of the plugin is the latest.");
+        }
     }
 
 }
