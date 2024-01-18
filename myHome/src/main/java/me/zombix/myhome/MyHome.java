@@ -52,14 +52,14 @@ public class MyHome extends JavaPlugin {
 
     private void checkForUpdates() {
         String pluginName = "myHome";
-        String currentVersion = getDescription().getVersion();
+        String currentVersion = "v" + getDescription().getVersion();
         String owner = "Zombix3000";
         String repository = "myHome";
 
         Updates updates = new Updates(pluginName, currentVersion, owner, repository);
 
         if (updates.checkForUpdates()) {
-            getLogger().warning("A new version of the plugin is available! (Current: v" + getDescription().getVersion() + ", Latest: " + updates.getLatestVersion() + ")");
+            getLogger().warning("A new version of the plugin is available! (Current: " + getDescription().getVersion() + ", Latest: " + updates.getLatestVersion() + ")");
         } else {
             getLogger().info("The current version of the plugin is the latest.");
         }
