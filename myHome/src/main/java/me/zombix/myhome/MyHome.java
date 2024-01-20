@@ -56,7 +56,7 @@ public class MyHome extends JavaPlugin {
         String owner = "Zombix3000";
         String repository = "myHome";
 
-        Updates updates = new Updates(pluginName, currentVersion, owner, repository);
+        Updates updates = new Updates(pluginName, currentVersion, owner, repository, this);
 
         if (updates.checkForUpdates()) {
             getLogger().warning("A new version of the plugin is available! (Current: " + getDescription().getVersion() + ", Latest: " + updates.getLatestVersion() + ")");

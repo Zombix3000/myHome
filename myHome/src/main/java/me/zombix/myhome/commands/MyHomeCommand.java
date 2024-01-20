@@ -54,7 +54,7 @@ public class MyHomeCommand implements CommandExecutor, TabCompleter {
                 AddPermissionCommand addPermissionCommand = new AddPermissionCommand(configManager);
                 return addPermissionCommand.onCommand(sender, command, label, args);
             } else if (subCommand.equalsIgnoreCase("update")) {
-                UpdateCommand updateCommand = new UpdateCommand(configManager, updates);
+                UpdateCommand updateCommand = new UpdateCommand(configManager, updates, plugin);
                 return updateCommand.onCommand(sender, command, label, args);
             } else {
                 return false;
