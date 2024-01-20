@@ -70,3 +70,12 @@ home-deleted: '&aSuccessfully deleted your &b{homeNumber} &ahome!'
 
 #This message will be sent if added new permission. Default: '&aSuccessfully added &6{permission} &apermission with &b{homesNumber} &ahomes!'
 added-permission: '&aSuccessfully added &6{permission} &apermission with &b{homesNumber} &ahomes!'
+
+#This message will be sent if try to add new permission but this permission is already in permissions.yml. Default: '&cThis permission is already in permissions.yml!'
+already-permission-is: '&cThis permission is already in permissions.yml!'
+
+#This message will be sent if try edit or delete permission but this permission is not in permissions.yml. Default: "&cThis permission isn't in permissions.yml!"
+is-not-permission: "&cThis permission isn't in permissions.yml!"
+
+#This message will be sent if deleted permission. Default: '&aSuccessfully deleted &6{permission} &apermission!'
+deleted-permission: '&aSuccessfully deleted &6{permission} &apermission!'

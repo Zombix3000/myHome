@@ -12,6 +12,7 @@ public class AddPermissionCommand implements CommandExecutor {
     private final String noPermission;
     private final String noInteger;
     private final String successfullyAddPermission;
+    private final String alreadyPermissionIs;
 
     public AddPermissionCommand(ConfigManager configManager) {
         FileConfiguration messagesConfig = configManager.getMessagesConfig();
@@ -20,35 +21,41 @@ public class AddPermissionCommand implements CommandExecutor {
         this.noPermission = ChatColor.translateAlternateColorCodes('&', messagesConfig.getString("no-permission"));
         this.noInteger = ChatColor.translateAlternateColorCodes('&', messagesConfig.getString("home-no-integer"));
         this.successfullyAddPermission = ChatColor.translateAlternateColorCodes('&', messagesConfig.getString("added-permission"));
+        this.alreadyPermissionIs = ChatColor.translateAlternateColorCodes('&', messagesConfig.getString("already-permission-is"));
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-            if (sender.hasPermission("myhome.managepermissions")) {
-                FileConfiguration permissionsConfig = configManager.getPermissionsConfig();
+        if (sender.hasPermission("myhome.managepermissions")) {
+            FileConfiguration permissionsConfig = configManager.getPermissionsConfig();
 
-                int homesNumber;
-                String permission;
-                if (args.length > 2) {
-                    try {
-                        homesNumber = Integer.parseInt(args[2]);
-                    } catch (NumberFormatException e) {
-                        sender.sendMessage(noInteger);
-                        return true;
-                    }
-                    permission = args[1];
-                } else {
-                    return false;
+            int homesNumber;
+            String permission;
+            if (args.length > 2) {
+                try {
+                    homesNumber = Integer.parseInt(args[2]);
+                } catch (NumberFormatException e) {
+                    sender.sendMessage(noInteger);
+                    return true;
                 }
-
-                permissionsConfig.set(permission + "." + "homes", homesNumber);
-
-                configManager.savePermissionsConfig();
-
-                sender.sendMessage(successfullyAddPermission.replace("{permission}", permission).replace("{homesNumber}", String.valueOf(homesNumber)));
+                permission = args[1];
             } else {
-                sender.sendMessage(noPermission);
+                return false;
             }
+
+            if (permissionsConfig.contains("permissions" + "." + permission)) {
+                sender.sendMessage(alreadyPermissionIs);
+                return true;
+            }
+
+            permissionsConfig.set("permissions" + "." + permission + "." + "homes", homesNumber);
+
+            configManager.savePermissionsConfig();
+
+            sender.sendMessage(successfullyAddPermission.replace("{permission}", permission).replace("{homesNumber}", String.valueOf(homesNumber)));
+        } else {
+            sender.sendMessage(noPermission);
+        }
         return true;
     }
 }
