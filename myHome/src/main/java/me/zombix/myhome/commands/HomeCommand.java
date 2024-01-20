@@ -95,7 +95,7 @@ public class HomeCommand implements CommandExecutor, Listener, TabCompleter {
             if (homesConfig.get("homes" + "." + player.getUniqueId().toString()) != null) {
                 int homeNumber = 0;
                 String isOk = "yes";
-                if (args.length == 0) {
+                if (args.length == 0 || args[0].equalsIgnoreCase("home")) {
                     homeNumber = mainConfig.getInt("default-tp-home");
                 } else {
                     try {

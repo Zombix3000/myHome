@@ -88,7 +88,6 @@ public class MyHomeCommand implements CommandExecutor, TabCompleter {
 
             subCommands.add("home");
             subCommands.add("sethome");
-            subCommands.add("setdescription");
             subCommands.add("homes");
 
             for (String subCommand : subCommands) {

@@ -17,11 +17,11 @@ commands:
     usage: /myhome reload
   myhome:
     description: myHome plugin command
-    usage: /myhome <reload/sethome/home/setdescription> <home_number/description/setdescription/delete> <description/home_number>
+    usage: /myhome <reload/sethome/home/homes/update> <home_number/setdescription/delete> <description/home_number>
     aliases:
       - sethome
+      - update
       - home
-      - setdescription
       - homes
       - reload
 

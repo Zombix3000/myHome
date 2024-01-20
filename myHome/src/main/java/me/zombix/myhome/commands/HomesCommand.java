@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.bukkit.Bukkit.getLogger;
+
 public class HomesCommand implements CommandExecutor {
 
     private final ConfigManager configManager;
@@ -42,8 +44,8 @@ public class HomesCommand implements CommandExecutor {
                 FileConfiguration homesConfig = configManager.getHomesConfig();
                 String playerUUID = player.getUniqueId().toString();
 
-                if (homesConfig.contains(playerUUID)) {
-                    ConfigurationSection playerHomes = homesConfig.getConfigurationSection(playerUUID);
+                if (homesConfig.contains("homes" + "." + playerUUID)) {
+                    ConfigurationSection playerHomes = homesConfig.getConfigurationSection("homes" + "." + playerUUID);
                     Set<String> homes = playerHomes.getKeys(false);
                     List<Integer> homeNumbers = homes.stream()
                             .mapToInt(Integer::parseInt)

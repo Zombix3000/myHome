@@ -1,9 +1,9 @@
 ##############################
-# --- myHome v2.1 Plugin --- #
+# --- myHome v2.2 Plugin --- #
 ##############################
 
 #This is a config for myHome plugin!
-#More info you can find in plugin documentation or in our discord: {link}
+#More info you can find in plugin documentation or in our discord: https://discord.gg/qTpgQXQZye
 
 #This option set plugin should checking for new updates. Default: true
 check-for-updates: true

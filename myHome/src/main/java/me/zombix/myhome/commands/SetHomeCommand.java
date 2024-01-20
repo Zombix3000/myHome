@@ -78,8 +78,17 @@ public class SetHomeCommand implements CommandExecutor {
                     try {
                         homeNumber = Integer.parseInt(args[0]);
                     } catch (NumberFormatException e) {
-                        player.sendMessage(noInteger.replace("{player}", player.getName()));
-                        return true;
+                        if (args[0].equalsIgnoreCase("sethome")) {
+                            if (configManager.getMainConfig().getBoolean("auto-overwriting-homes")) {
+                                homeNumber = 1;
+                            } else {
+                                player.sendMessage(allHomesBusy.replace("{player}", player.getName()));
+                                return true;
+                            }
+                        } else {
+                            player.sendMessage(noInteger.replace("{player}", player.getName()));
+                            return true;
+                        }
                     }
                 }
 

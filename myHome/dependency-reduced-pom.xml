@@ -37,7 +37,7 @@
         <artifactId>maven-jar-plugin</artifactId>
         <version>2.3.1</version>
         <configuration>
-          <outputDirectory>D:\krzys\spigot/server/plugins</outputDirectory>
+          <outputDirectory>D:\krzys\spigot/server 1.20.2/plugins</outputDirectory>
         </configuration>
       </plugin>
     </plugins>

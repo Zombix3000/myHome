@@ -22,7 +22,7 @@ public class CommandsTabCompleter implements TabCompleter {
                 case "myhome":
                     subCommands.add("sethome");
                     subCommands.add("home");
-                    subCommands.add("setdescription");
+                    subCommands.add("homes");
 
                     if (sender.hasPermission("myhome.reload") || sender.isOp()) {
                         subCommands.add("reload");

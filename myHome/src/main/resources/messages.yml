@@ -1,9 +1,9 @@
 ##############################
-# --- myHome v2.1 Plugin --- #
+# --- myHome v2.2 Plugin --- #
 ##############################
 
 #This is a messages for myHome plugin!
-#More info you can find in plugin documentation or in our discord: {link}
+#More info you can find in plugin documentation or in our discord: https://discord.gg/qTpgQXQZye
 
 #Variables:
 #{player} = player name - Usage in all without messages for command what doesn't be run by player.

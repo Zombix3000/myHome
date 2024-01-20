@@ -39,14 +39,37 @@ public class SetDescriptionCommand implements CommandExecutor {
                 FileConfiguration homesConfig = configManager.getHomesConfig();
 
                 if (args.length < 3) {
-                    player.sendMessage("/home setdescription <home_number> <new_description>");
+                    if (args[0].equalsIgnoreCase("setdescription")) {
+                        player.sendMessage("/home setdescription <home_number> <new_description>");
+                    } else {
+                        player.sendMessage("/myhome home setdescription <home_number> <new_description>");
+                    }
+                    return true;
                 }
 
-                String newDescription = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+                String newDescription;
+                if (args[0].equalsIgnoreCase("setdescription")) {
+                    newDescription = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+                } else {
+                    newDescription = String.join(" ", Arrays.copyOfRange(args, 3, args.length));
+                }
+
+                if (newDescription.equals("")) {
+                    if (args[0].equalsIgnoreCase("setdescription")) {
+                        player.sendMessage("/home setdescription home_number <new_description>");
+                    } else {
+                        player.sendMessage("/myhome home setdescription home_number <new_description>");
+                    }
+                    return true;
+                }
 
                 int homeNumber;
                 try {
-                    homeNumber = Integer.parseInt(args[1]);
+                    if (args[0].equalsIgnoreCase("setdescription")) {
+                        homeNumber = Integer.parseInt(args[1]);
+                    } else {
+                        homeNumber = Integer.parseInt(args[2]);
+                    }
                 } catch (NumberFormatException e) {
                     player.sendMessage(noInteger.replace("{player}", player.getName()));
                     return true;
